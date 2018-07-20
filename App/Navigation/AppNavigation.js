@@ -3,12 +3,14 @@ import { createBottomTabNavigator } from "react-navigation";
 import LaunchScreenNavigation from "./LaunchScreenNavigation";
 import GameScreenStack from "./GameScreenNavigation";
 import LeaderboardStack from "./LeaderBoardNavigation";
-import Icon from "react-native-vector-icons/FontAwesome";
+import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { store } from "../Main/App";
 import ManageGameActions from "../Redux/ManageGameRedux";
 import styles from "./Styles/NavigationStyles";
 import { Colors } from "../Themes";
 import LaunchScreen from "../Features/GamesList/Containers/LaunchScreen";
+import SettingsStack from "./SettingsNavigation";
 
 // Manifest of possible screens
 const PrimaryNav = createBottomTabNavigator(
@@ -21,6 +23,9 @@ const PrimaryNav = createBottomTabNavigator(
     },
     LeaderboardScreen: {
       screen: LeaderboardStack
+    },
+    SettingsScreen: {
+      screen: SettingsStack
     }
   },
   {
@@ -30,6 +35,11 @@ const PrimaryNav = createBottomTabNavigator(
     navigationOptions: ({ navigation }) => ({
       tabBarIcon: ({ focused, tintColor }) => {
         const { routeName } = navigation.state;
+
+        if (routeName === "SettingsScreen") {
+          return <MaterialIcon name="settings" size={25} color={tintColor} />;
+        }
+
         let iconName;
         if (routeName === "LaunchScreenStack") {
           iconName = "home";
@@ -38,7 +48,7 @@ const PrimaryNav = createBottomTabNavigator(
         } else if (routeName === "LeaderboardScreen") {
           iconName = "trophy";
         }
-        return <Icon name={iconName} size={25} color={tintColor} />;
+        return <FontAwesomeIcon name={iconName} size={25} color={tintColor} />;
       },
       tabBarOnPress: ({ navigation, defaultHandler }) => {
         if (navigation.state.routeName === "GameScreenStack") {

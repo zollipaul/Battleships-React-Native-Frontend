@@ -121,6 +121,15 @@ class Header extends Component {
             </View>
           </View>
         );
+      }
+      if (routeName === "SettingsScreen") {
+        return (
+          <View style={styles.headerLoggedOutOrPlacingShipsOrGamePlay}>
+            <View style={styles.titleView}>
+              <Text style={styles.titleText}>Settings</Text>
+            </View>
+          </View>
+        );
       } else {
         return null;
       }

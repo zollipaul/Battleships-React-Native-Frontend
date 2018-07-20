@@ -20,6 +20,7 @@ import SortByLocationButton from "../Components/SortByLocationButton";
 import CreateGameButton from "../Components/CreateGameButton";
 import styles from "./Styles/LaunchScreenStyles";
 import SafariView from "react-native-safari-view";
+import AppConfig from "../../../Config/AppConfig";
 
 // More info here: https://facebook.github.io/react-native/docs/flatlist.html
 
@@ -58,11 +59,10 @@ class LaunchScreen extends PureComponent {
     this.props.manageLogin();
   };
   // Handle Login with Facebook button tap
-  loginWithFacebook = () =>
-    this.openURL("https://localhost:8443/api/login/facebook");
+  loginWithFacebook = () => this.openURL(AppConfig.server + "login/facebook");
 
   // Handle Login with Google button tap
-  loginWithGoogle = () => this.openURL("https://localhost:3000/auth/google");
+  loginWithGoogle = () => this.openURL(AppConfig.server + "login/google");
 
   // Open URL in a browser
   openURL = url => {
@@ -211,7 +211,7 @@ class LaunchScreen extends PureComponent {
           // login={this.login}
           // signUp={this.signUp}
           loginWithFacebook={this.loginWithFacebook}
-          loginGoogle={this.props.loginGoogle}
+          loginWithGoogle={this.loginWithGoogle}
         />
       );
     }

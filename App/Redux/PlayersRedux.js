@@ -34,6 +34,10 @@ const { Types, Creators } = createActions({
   signUpPlayerSuccess: ["payload"],
   signUpPlayerFailure: null,
 
+  deletePlayerRequest: ["data"],
+  deletePlayerSuccess: ["payload"],
+  deletePlayerFailure: null,
+
   manageLogin: null
 });
 
@@ -97,5 +101,9 @@ export const reducer = createReducer(INITIAL_STATE, {
 
   [Types.SIGN_UP_PLAYER_REQUEST]: request,
   [Types.SIGN_UP_PLAYER_SUCCESS]: success,
-  [Types.SIGN_UP_PLAYER_FAILURE]: failure
+  [Types.SIGN_UP_PLAYER_FAILURE]: failure,
+
+  [Types.DELETE_PLAYER_REQUEST]: request,
+  [Types.DELETE_PLAYER_SUCCESS]: success,
+  [Types.DELETE_PLAYER_FAILURE]: failure
 });

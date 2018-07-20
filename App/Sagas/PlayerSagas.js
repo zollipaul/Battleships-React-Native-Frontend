@@ -23,14 +23,9 @@ import SafariView from "react-native-safari-view";
 
 export function* getPlayers(api, action) {
   const { data } = action;
-  // get current data from Store
-  // const currentData = yield select(PlayersSelectors.getData)
-  // make the call to the api
   const response = yield call(api.getPlayers, data);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(PlayersActions.getPlayersSuccess(response.data));
   } else {
     yield put(PlayersActions.getPlayersFailure());
@@ -39,16 +34,10 @@ export function* getPlayers(api, action) {
 
 export function* loginPlayer(api, action) {
   const { data } = action;
-  // get current data from Store
-  // const currentData = yield select(PostPlayersSelectors.getData)
-  // make the call to the api
-
   const response = yield call(api.loginPlayer, data);
   console.log(response);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(PlayersActions.loginPlayerSuccess(response.data));
     yield put(GamesActions.getGamesRequest());
   } else {
@@ -58,19 +47,10 @@ export function* loginPlayer(api, action) {
 
 export function* loginFacebook(api, action) {
   const { data } = action;
-  // get current data from Store
-  // const currentData = yield select(PostPlayersSelectors.getData)
-  // make the call to the api
-
   const response = yield call(api.loginFacebook, data);
-  console.log(response);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(PlayersActions.loginPlayerSuccess(response.data));
-
-    // yield put(GamesActions.getGamesRequest());
   } else {
     yield put(PlayersActions.loginPlayerFailure());
   }
@@ -78,18 +58,11 @@ export function* loginFacebook(api, action) {
 
 export function* loginGoogle(api, action) {
   const { data } = action;
-  // get current data from Store
-  // const currentData = yield select(PostPlayersSelectors.getData)
-  // make the call to the api
-
   const response = yield call(api.loginGoogle, data);
   console.log(response);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(PlayersActions.loginPlayerSuccess(response.data));
-    yield put(GamesActions.getGamesRequest());
   } else {
     yield put(PlayersActions.loginPlayerFailure());
   }
@@ -102,8 +75,6 @@ export function* logoutPlayer(api, action) {
   console.log(response);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(PlayersActions.logoutPlayerSuccess(response.data));
     yield put(TokenActions.clearToken());
     yield put(GamesActions.getGamesRequest());
@@ -119,8 +90,6 @@ export function* signUpPlayer(api, action) {
   console.log(response);
   // success?
   if (response.ok) {
-    // You might need to change the response here - do this with a 'transform',
-    // located in ../Transforms/. Otherwise, just pass the data back from the api.
     yield put(PlayersActions.signUpPlayerSuccess(response.data));
     yield put(GamesActions.getGamesRequest());
   } else {
@@ -133,10 +102,9 @@ export function* setUserName(api, action) {
   const response = yield call(api.setUserName, data);
   console.log(response);
   // success?
-
   if (response.ok) {
-      yield put(GamesActions.getGamesRequestLoading());
-      yield put(NavigationActions.navigate({ routeName: "LaunchScreen" }));
+    yield put(GamesActions.getGamesRequestLoading());
+    yield put(NavigationActions.navigate({ routeName: "LaunchScreen" }));
     yield put(PlayersActions.setUserNameSuccess(response.data));
   } else {
     if (response.data === "Username already exists") {
@@ -151,12 +119,28 @@ export function* manageLogin() {
   yield put(GamesActions.getGamesRequest());
   const action = yield take("GET_GAMES_SUCCESS");
   const games = action.payload;
-  if (games !== null && !games.currentUser.userNameIsSet) {
+  if (
+    games !== null &&
+    games.currentUser !== null &&
+    !games.currentUser.userNameIsSet
+  ) {
     yield put(NavigationActions.navigate({ routeName: "SetUserName" }));
   } else {
     yield put(NavigationActions.navigate({ routeName: "LaunchScreen" }));
   }
   if (Platform.OS === "ios") {
     SafariView.dismiss();
+  }
+}
+
+export function* deletePlayer(api) {
+  const response = yield call(api.deletePlayer);
+  console.log(response);
+  // success?
+  if (response.ok) {
+    yield put(NavigationActions.navigate({ routeName: "LaunchScreen" }));
+    yield put(PlayersActions.setUserNameSuccess(response.data));
+  } else {
+    yield put(PlayersActions.setUserNameFailure());
   }
 }

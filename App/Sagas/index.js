@@ -26,6 +26,7 @@ import {
   loginGoogle,
   logoutPlayer,
   signUpPlayer,
+  deletePlayer,
   setUserName,
   manageLogin
 } from "./PlayerSagas";
@@ -73,6 +74,8 @@ export default function* root() {
     takeLatest(PlayersTypes.SET_USER_NAME_REQUEST, setUserName, api),
     takeLatest(PlayersTypes.LOGOUT_PLAYER_REQUEST, logoutPlayer, api),
     takeLatest(PlayersTypes.SIGN_UP_PLAYER_REQUEST, signUpPlayer, api),
+    takeLatest(PlayersTypes.DELETE_PLAYER_REQUEST, deletePlayer, api),
+
     takeLatest(PlayersTypes.MANAGE_LOGIN, manageLogin, api),
 
     takeLatest(ManageGameTypes.CREATE_GAME_REQUEST, createGame, api),

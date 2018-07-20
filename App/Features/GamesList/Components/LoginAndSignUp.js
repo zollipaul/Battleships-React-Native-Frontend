@@ -9,14 +9,8 @@ class LoginAndSignUp extends Component {
     this.state = {
       userName: "",
       password: "",
-      user: null
     };
   }
-
-  componentWillMount() {
-
-  }
-
 
   render() {
     return (
@@ -37,15 +31,15 @@ class LoginAndSignUp extends Component {
         {/*onChangeText={password => this.setState({ password })}*/}
         {/*/>*/}
         <View style={styles.buttons}>
+          {/*<TouchableOpacity*/}
+            {/*style={styles.button}*/}
+            {/*onPress={() => this.props.loginWithFacebook()}*/}
+          {/*>*/}
+            {/*<Text style={styles.buttonText}>Login with Facebook</Text>*/}
+          {/*</TouchableOpacity>*/}
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.props.loginWithFacebook()}
-          >
-            <Text style={styles.buttonText}>Login with Facebook</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => this.props.loginGoogle()}
+            onPress={() => this.props.loginWithGoogle()}
           >
             <Text style={styles.buttonText}>Login with Google</Text>
           </TouchableOpacity>

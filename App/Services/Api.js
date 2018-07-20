@@ -1,11 +1,10 @@
 // a library to wrap and simplify api calls
 import apisauce from "apisauce";
 import qs from "qs";
+import AppConfig from '../Config/AppConfig'
 
 // our "constructor"
-// const create = (baseURL = "https://zollipaul-battleships.herokuapp.com/api/") => {
-const create = (baseURL = "https://localhost:8443/api/") => {
-  // ------
+const create = (baseURL = AppConfig.server) => {
   // ------
   //
   // Create and configure an apisauce-based api object.
@@ -64,7 +63,7 @@ const create = (baseURL = "https://localhost:8443/api/") => {
     });
 
   const loginFacebook = () => api.get("login/facebook");
-  const loginGoogle = () => api.post("login/google");
+  const loginGoogle = () => api.get("login/google");
 
   const logoutPlayer = () => api.get("logout");
 
@@ -80,6 +79,8 @@ const create = (baseURL = "https://localhost:8443/api/") => {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     });
   };
+
+  const deletePlayer = () => api.get("deleteAccount");
 
   const getGames = () => api.get("games");
   const getGameView = gamePlayerId => api.get("game_view/" + gamePlayerId);
@@ -105,7 +106,7 @@ const create = (baseURL = "https://localhost:8443/api/") => {
   };
 
   const clearToken = () => {
-      delete api.headers['Authorization']
+    delete api.headers["Authorization"];
   };
 
   // ------
@@ -122,16 +123,13 @@ const create = (baseURL = "https://localhost:8443/api/") => {
   //
 
   return {
-    // a list of the API functions from step 2
-    // getRoot,
-    // getRate,
-    // getUser,
     getPlayers,
     loginPlayer,
     loginFacebook,
     loginGoogle,
     logoutPlayer,
     signUpPlayer,
+    deletePlayer,
     setUserName,
     getGames,
     getGameView,
