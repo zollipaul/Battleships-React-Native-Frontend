@@ -1,7 +1,7 @@
 // a library to wrap and simplify api calls
 import apisauce from "apisauce";
 import qs from "qs";
-import AppConfig from '../Config/AppConfig'
+import AppConfig from "../Config/AppConfig";
 
 // our "constructor"
 const create = (baseURL = AppConfig.server) => {
@@ -28,7 +28,7 @@ const create = (baseURL = AppConfig.server) => {
     //   withCredentials:
     // },
     //   mode: 'cors',
-    // withCredentials: true,
+    withCredentials: true,
     // dataType: 'json',
     // 10 second timeout...
     timeout: 10000
@@ -57,10 +57,12 @@ const create = (baseURL = AppConfig.server) => {
   // const getRate = () => api.get('rate_limit')
   // const getUser = (username) => api.get('search/users', {q: username})
   const getPlayers = () => api.get("players");
-  const loginPlayer = data =>
-    api.post("login", qs.stringify(data), {
+  const loginPlayer = data => {
+    console.log(data);
+    return api.post("login", qs.stringify(data), {
       headers: { "content-type": "application/x-www-form-urlencoded" }
     });
+  };
 
   const loginFacebook = () => api.get("login/facebook");
   const loginGoogle = () => api.get("login/google");
@@ -80,7 +82,7 @@ const create = (baseURL = AppConfig.server) => {
     });
   };
 
-  const deletePlayer = () => api.get("deleteAccount");
+  const deletePlayer = () => api.get("deletePlayer");
 
   const getGames = () => api.get("games");
   const getGameView = gamePlayerId => api.get("game_view/" + gamePlayerId);
@@ -102,7 +104,7 @@ const create = (baseURL = AppConfig.server) => {
     });
 
   const setToken = token => {
-    api.setHeader("Authorization", "bearer " + token);
+    api.setHeader("Authorization", "Bearer " + token);
   };
 
   const clearToken = () => {

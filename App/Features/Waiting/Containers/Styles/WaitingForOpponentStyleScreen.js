@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors } from "../../../../Themes/index";
+import { Colors, Metrics } from "../../../../Themes/index";
 import { human } from "react-native-typography";
 
 export default StyleSheet.create({
@@ -11,6 +11,7 @@ export default StyleSheet.create({
   },
   text: {
     ...human.title1Object,
-    color: Colors.text
+    color: Colors.text,
+    marginBottom: Metrics.doubleBaseMargin
   }
 });

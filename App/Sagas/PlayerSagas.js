@@ -119,6 +119,9 @@ export function* manageLogin() {
   yield put(GamesActions.getGamesRequest());
   const action = yield take("GET_GAMES_SUCCESS");
   const games = action.payload;
+
+  console.log("test1");
+
   if (
     games !== null &&
     games.currentUser !== null &&
@@ -128,8 +131,11 @@ export function* manageLogin() {
   } else {
     yield put(NavigationActions.navigate({ routeName: "LaunchScreen" }));
   }
+
+  console.log("test2");
   if (Platform.OS === "ios") {
-    SafariView.dismiss();
+      console.log("test3");
+      SafariView.dismiss();
   }
 }
 
@@ -138,9 +144,14 @@ export function* deletePlayer(api) {
   console.log(response);
   // success?
   if (response.ok) {
+    yield put(NavigationActions.navigate({ routeName: "Loading" }));
+    yield put(PlayersActions.deletePlayerSuccess(response.data));
+    yield put(TokenActions.clearToken());
+    yield put(GameViewActions.resetGameView());
+    yield put(GamesActions.getGamesRequest());
+    yield take("GET_GAMES_SUCCESS");
     yield put(NavigationActions.navigate({ routeName: "LaunchScreen" }));
-    yield put(PlayersActions.setUserNameSuccess(response.data));
   } else {
-    yield put(PlayersActions.setUserNameFailure());
+    yield put(PlayersActions.deletePlayerFailure());
   }
 }

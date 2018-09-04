@@ -19,7 +19,6 @@ export default StyleSheet.create({
     color: Colors.white
   },
   hurryView: {
-    marginTop: Metrics.baseMargin,
     alignItems: "center",
   },
   hurryText: {

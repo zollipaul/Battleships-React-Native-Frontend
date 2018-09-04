@@ -31,10 +31,11 @@ export default class GamePlayHeading extends Component<Props> {
       return (
         <View style={styles.stageContainer}>
           <Text style={styles.stage}>{this.salvoText()}</Text>
-          <View style={styles.hurryView}><Text style={styles.hurryText}>Hurry up,</Text>
-            <Text style={styles.hurryText}>
-              {this.props.opponent} is waiting for you!
-            </Text></View>
+          <View style={styles.hurryView}>
+            <Text style={styles.hurryText}>Hurry up,</Text>
+            <Text style={styles.hurryText}>{this.props.opponent}</Text>
+            <Text style={styles.hurryText}>is waiting for you!</Text>
+          </View>
         </View>
       );
     }
@@ -43,7 +44,11 @@ export default class GamePlayHeading extends Component<Props> {
       return (
         <View style={styles.stageContainer}>
           <Text style={styles.stage}>Waiting on opponent</Text>
-          <ActivityIndicator size="large" color={Colors.grid} style={styles.activityIndicator}/>
+          <ActivityIndicator
+            size="large"
+            color={Colors.grid}
+            style={styles.activityIndicator}
+          />
         </View>
       );
     }

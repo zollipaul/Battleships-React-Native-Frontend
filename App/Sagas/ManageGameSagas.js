@@ -111,6 +111,7 @@ export function* navigation(stage) {
   if (stage === "placingShips") {
     yield put(NavigationActions.navigate({ routeName: "PlacingShipsScreen" }));
     yield put(ShipsActions.resetAllShips());
+
   } else if (
     stage === "waitingForJoiningOpponent" ||
     stage === "waitingForPlacingShipsOfOpponent"

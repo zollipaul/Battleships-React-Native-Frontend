@@ -25,12 +25,43 @@ class Ship extends PureComponent {
     };
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.ships.counter !== this.props.ships.counter) {
+      if (this.props.ships.counter === 0 && !this._startingPosition) {
+        this._panRespCanStart = false;
+        this._startingPosition = true;
+        // console.log("ship back to starting position");
+        // console.log(this._val.x);
+        // console.log(this._lastPos.x);
+        // console.log(this.state.pan.x);
+        this.state.pan.extractOffset();
+        Animated.parallel([
+          Animated.timing(this.state.pan, {
+            toValue: { x: this._lastPos.x * -1, y: this._lastPos.y * -1 },
+            duration: 800,
+            delay: 0
+          }),
+          Animated.timing(this.state.spin, {
+            toValue: 800,
+            duration: 0
+          })
+        ]).start(() => {
+          this._lastPos = this._val;
+          this._panRespCanStart = true;
+        });
+      }
+    }
+  }
+
   componentWillMount() {
+    console.log("mount");
+
     this._panRespCanStart = true;
     this._lastPos = { x: 0, y: 0 };
     // Add a listener for the delta value change
     this._val = { x: 0, y: 0 };
     this.state.pan.addListener(value => (this._val = value));
+    console.log(this._val);
     const squareLength = Metrics.placingShipsSquareLength;
     let previousTimeStamp = 0;
     this._startingPosition = true;
@@ -190,6 +221,10 @@ class Ship extends PureComponent {
           console.log("ship back to starting position");
           ReactNativeHapticFeedback.trigger("notificationError", false);
 
+          console.log(this._val.x);
+          console.log(this._lastPos.x);
+          console.log(this.state.pan.x);
+
           Animated.parallel([
             Animated.timing(this.state.pan, {
               toValue: { x: this._lastPos.x * -1, y: this._lastPos.y * -1 },
@@ -202,6 +237,9 @@ class Ship extends PureComponent {
             })
           ]).start(() => {
             this._lastPos = this._val;
+
+            console.log(this._val.x);
+
             this._panRespCanStart = true;
           });
 
@@ -228,6 +266,10 @@ class Ship extends PureComponent {
           }).start(() => {
             this._panRespCanStart = true;
             this._lastPos = this._val;
+
+            console.log(this._val.x);
+            console.log(this._lastPos.x);
+            console.log(this.state.pan.x);
           });
           this.pushShip(shipXLocation, shipYLocation, horizontal);
         }

@@ -57,10 +57,12 @@ class GamePlayOpponentGrid extends Component {
 
   componentWillMount() {
     let onceHaptic = true;
+    this._panRespCanStart = true;
     this.panResponder = PanResponder.create({
       onStartShouldSetPanResponder: e =>
-        this.props.stage === "myTurnAndOpponentHasNotShot" ||
-        this.props.stage === "myTurnAndOpponentHasShot",
+        (this.props.stage === "myTurnAndOpponentHasNotShot" ||
+          this.props.stage === "myTurnAndOpponentHasShot") &&
+        this._panRespCanStart,
       onPanResponderGrant: (e, gesture) => {
         this.state.gridPan.setValue(0);
         const id = this.getId(e);
@@ -122,15 +124,17 @@ class GamePlayOpponentGrid extends Component {
           this.resetCrosshair();
           this.toggleSalvo(this.getId(e));
         } else {
+          this._panRespCanStart = false;
           const releasePosition = gestureState.dy;
+          if (releasePosition > 100) {
+            this.props.postSalvoes();
+          }
           Animated.spring(this.state.gridPan, {
             toValue: 0,
-            duration: 200,
+            tension: 20,
             useNativeDriver: true
           }).start(() => {
-            if (releasePosition > 100) {
-              this.props.postSalvoes();
-            }
+            this._panRespCanStart = true;
           });
         }
       }
@@ -243,7 +247,7 @@ const mapDispatchToProps = dispatch => {
       dispatch(ManageGameActions.postSalvoesRequest());
     },
     stopGameViewSync: () => {
-      dispatch(GameViewActions.stopGamesSync());
+      dispatch(GameViewActions.stopGameViewSync());
     }
   };
 };

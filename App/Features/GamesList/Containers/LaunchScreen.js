@@ -208,8 +208,8 @@ class LaunchScreen extends PureComponent {
     if (this.props.games.currentUser === null) {
       return (
         <LoginAndSignUp
-          // login={this.login}
-          // signUp={this.signUp}
+          login={this.login}
+          signUp={this.signUp}
           loginWithFacebook={this.loginWithFacebook}
           loginWithGoogle={this.loginWithGoogle}
         />
@@ -218,8 +218,6 @@ class LaunchScreen extends PureComponent {
   };
 
   render() {
-    console.log(this.props.games);
-
     return this.props.games !== null ? (
       <View style={styles.container}>
         {this.loginAndSignUp()}
@@ -239,13 +237,13 @@ class LaunchScreen extends PureComponent {
     );
   }
 
-  // login = (userName, password) => {
-  //   this.props.loginPlayer({ userName: userName, password: password });
-  // };
-  //
-  // signUp = (userName, password) => {
-  //   this.props.signUpPlayer({ userName: userName, password: password });
-  // };
+  login = (userName, password) => {
+    this.props.loginPlayer({ userName: userName, password: password });
+  };
+
+  signUp = (userName, password) => {
+    this.props.signUpPlayer({ userName: userName, password: password });
+  };
 }
 
 const mapStateToProps = state => {
@@ -263,12 +261,13 @@ const mapDispatchToProps = dispatch => {
     },
     changeGame: payload => {
       dispatch(ManageGameActions.changeGame(payload));
-    }, // loginPlayer: data => {
-    //   dispatch(PlayersActions.loginPlayerRequest(data));
-    // },
-    //   signUpPlayer: data => {
-    //       dispatch(PlayersActions.signUpPlayerRequest(data));
-    //   },
+    },
+    loginPlayer: data => {
+      dispatch(PlayersActions.loginPlayerRequest(data));
+    },
+    signUpPlayer: data => {
+      dispatch(PlayersActions.signUpPlayerRequest(data));
+    },
     loginFacebook: () => {
       dispatch(PlayersActions.loginFacebookRequest());
     },

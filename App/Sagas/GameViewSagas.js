@@ -24,24 +24,31 @@ export function* backgroundSync(api, gamePlayerId) {
     yield call(delay, 5000);
     const response = yield call(api.getGameView, gamePlayerId);
     const prevGameView = yield select(GameViewSelectors.getGameView);
+    let gameView = response.data;
 
     // success?
-    if (response.ok && prevGameView) {
-      let gameView = response.data;
-      const prevStage = prevGameView.payload.stage;
-      if (prevGameView.payload.salvoes.length !== gameView.salvoes.length) {
-        // console.log("update GameView");
-        gameView.gameGrids = ConvertGameViewData(response.data);
-        console.log(gameView);
-        yield put(GameViewActions.gameViewSuccess(gameView));
-      } else if (
-        (prevStage === "waitingForJoiningOpponent" ||
-          prevStage === "waitingForPlacingShipsOfOpponent") &&
-        gameView.game.stage === "placingSalvoes"
-      ) {
+    if (response.ok) {
+      if (prevGameView.payload === null) {
         gameView.gameGrids = ConvertGameViewData(response.data);
         yield put(GameViewActions.gameViewSuccess(gameView));
-        yield call(navigation, gameView.stage);
+      } else {
+        const prevStage = prevGameView.payload.stage;
+
+        // update gameView
+        if (prevGameView.payload.salvoes.length !== gameView.salvoes.length) {
+          gameView.gameGrids = ConvertGameViewData(response.data);
+          yield put(GameViewActions.gameViewSuccess(gameView));
+
+          // update gameView and navigate
+        } else if (
+          (prevStage === "waitingForJoiningOpponent" ||
+            prevStage === "waitingForPlacingShipsOfOpponent") &&
+          gameView.game.stage === "placingSalvoes"
+        ) {
+          gameView.gameGrids = ConvertGameViewData(response.data);
+          yield put(GameViewActions.gameViewSuccess(gameView));
+          yield call(navigation, gameView.stage);
+        }
       }
     } else {
       yield put(GameViewActions.gameViewFailure());
@@ -52,7 +59,7 @@ export function* backgroundSync(api, gamePlayerId) {
 export function* gameViewSyncManager(api) {
   while (true) {
     const action = yield take("GAME_VIEW_SUCCESS");
-      console.log("start Game View Sync");
+    console.log("start Game View Sync");
     const stage = action.payload.stage;
     const gamePlayerId = action.payload.id;
     if (stage !== "gameOver") {
@@ -71,3 +78,10 @@ export function* gameViewSyncManager(api) {
     }
   }
 }
+
+// todo refactor this
+//
+// function* updateGameView(api) {
+//
+// }
+//

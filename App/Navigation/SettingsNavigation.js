@@ -1,7 +1,7 @@
 import React from "react";
 import { createStackNavigator } from "react-navigation";
 import Header from "../Features/Header/Header";
-import SettingsScreen from "../Features/Settings/SettingsScreen";
+import SettingsScreen from "../Features/Settings/Containers/SettingsScreen";
 
 const SettingsStack = createStackNavigator(
   {

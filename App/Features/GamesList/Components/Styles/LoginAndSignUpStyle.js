@@ -30,7 +30,7 @@ export default StyleSheet.create({
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
-      marginBottom: Metrics.doubleBaseMargin,
+    marginBottom: Metrics.doubleBaseMargin,
     ...ApplicationStyles.shadow
   },
   orText: {
@@ -38,6 +38,20 @@ export default StyleSheet.create({
     marginHorizontal: Metrics.doubleBaseMargin,
     justifyContent: "center",
     alignItems: "center"
+  },
+  loginOrSignUp: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: Metrics.doubleBaseMargin
+  },
+  login: {
+    width: 80,
+    height: 40,
+    backgroundColor: Colors.buttonBackground,
+    borderRadius: 25,
+    justifyContent: "center",
+    alignItems: "center",
+    ...ApplicationStyles.shadow
   },
   signUp: {
     width: 100,
